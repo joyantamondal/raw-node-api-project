@@ -5,7 +5,9 @@
  * Date: 25/05/2022
  */
 // dependencies
+
 const http = require('http');
+const { handleReqRes } = require('./helpers/handleReqRes');
 
 // app object- module scaffolding
 const app = {};
@@ -22,9 +24,6 @@ app.createServer = () => {
     });
 };
 // handle Request Response
-app.handleReqRes = (req, res) => {
-    // response handle
-    res.end('Hello World');
-};
+app.handleReqRes = handleReqRes;
 // start the server
 app.createServer();
