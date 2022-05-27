@@ -15,8 +15,8 @@ const data = require('./lib/data');
 const app = {};
 // testing file system
 // @TODO:pore muse dibo
-data.create('test', 'newFile', { name: 'Bangladesh', Language: 'Bangla' }, (err) => {
-    console.log('Error Was', err);
+data.read('test', 'newFile', (err, data) => {
+    console.log(err, data);
 });
 // create server
 app.createServer = () => {
