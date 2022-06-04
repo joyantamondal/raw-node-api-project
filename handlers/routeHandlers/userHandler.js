@@ -28,7 +28,7 @@ handler._users.post = (requestProperties, callback) => {
 
     const password = typeof requestProperties.body.password === 'string' && requestProperties.body.password.trim().length > 0 ? requestProperties.body.password : false;
 
-    const tosAgrement = typeof requestProperties.body.tosAgrement === 'boolean' && requestProperties.body.tosAgrement.trim().length > 0 ? requestProperties.body.tosAgrement : false;
+    const tosAgrement = typeof requestProperties.body.tosAgrement === 'boolean' && requestProperties.body.tosAgrement ? requestProperties.body.tosAgrement : false;
     if (firstName && lastName && phone && password && tosAgrement) {
         // make sure that the user doesn't already exists
         data.read('users', phone, (err1) => {
