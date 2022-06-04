@@ -55,8 +55,6 @@ handler.handleReqRes = (req, res) => {
             res.writeHead(statusCode);
             res.end(payloadString);
         });
-        // response handle
-        res.end('Hello world');
     });
 };
 

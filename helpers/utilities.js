@@ -26,7 +26,6 @@ utilities.hash = (str) => {
         const hash = crypto.createHmac('sha256', environments.secretKey).update(str).digest('hex');
         return hash;
     }
-    return false;
 };
 // export module
 module.exports = utilities;
