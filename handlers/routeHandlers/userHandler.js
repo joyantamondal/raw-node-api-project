@@ -8,7 +8,6 @@
 // dependencies
 const data = require('../../lib/data');
 const { hash, parseJSON } = require('../../helpers/utilities');
-// const {parseJSON}= require('../../helpers/utilities');
 // module scaffolding
 const handler = {};
 handler.userHandler = (requestProperties, callback) => {
