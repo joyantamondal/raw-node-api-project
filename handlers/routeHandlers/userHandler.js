@@ -8,6 +8,7 @@
 // dependencies
 const data = require('../../lib/data');
 const { hash, parseJSON } = require('../../helpers/utilities');
+const tokenHandler = require('./tokenHandler');
 // module scaffolding
 const handler = {};
 handler.userHandler = (requestProperties, callback) => {
@@ -68,7 +69,11 @@ handler._users.get = (requestProperties, callback) => {
     // check the phone number if valid
     const phone = typeof requestProperties.queryStringObject.phone === 'string' && requestProperties.queryStringObject.phone.trim().length === 11 ? requestProperties.queryStringObject.phone : false;
     if (phone) {
-        // lokup the user
+        //verify token
+        let token = typeof(requestProperties.headersObject.token) === 'string' ? requestProperties.headersObject.token : false;
+        tokenHandler._token.verify(token, phone, (tokenId)=>{
+            if(tokenId){
+                   // lokup the user
         data.read('users', phone, (err, usr) => {
             const user = { ...parseJSON(usr) };
             /*
@@ -81,6 +86,12 @@ handler._users.get = (requestProperties, callback) => {
             } else {
                 callback(404, {
                     error: 'Requested user was not found!',
+                    });
+            }
+        });
+            } else {
+                callback(403, {
+                    error: 'Authentication Failure!',
                     });
             }
         });

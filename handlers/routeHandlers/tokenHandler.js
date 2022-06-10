@@ -59,6 +59,7 @@ handler._token.post = (requestProperties, callback) => {
         });
     }
 };
+
 handler._token.get = (requestProperties, callback) => {
     // check the id if valid
     const id = typeof requestProperties.queryStringObject.id=== 'string' && requestProperties.queryStringObject.id.trim().length === 20 ? requestProperties.queryStringObject.id : false;
@@ -83,6 +84,7 @@ handler._token.get = (requestProperties, callback) => {
         });
     }
 };
+
 handler._token.put = (requestProperties, callback) => {
     const id = typeof requestProperties.body.id === 'string' &&
     requestProperties.body.id.trim().length === 20 ? requestProperties.body.id : false;
@@ -118,6 +120,7 @@ handler._token.put = (requestProperties, callback) => {
             });
     }
 };
+
 handler._token.delete = (requestProperties, callback) => {
     // check the token number if valid
 const id = typeof requestProperties.queryStringObject.id === 'string' && requestProperties.queryStringObject.id.trim().length === 20 ? requestProperties.queryStringObject.id : false;
@@ -147,5 +150,18 @@ callback(400, {
 error: 'There was a problem in your request',
 });
 }
+};
+
+handler._token.verify = (id, phone, callback)=>{
+    data.read('tokens',id,(err,tokenData)=>{
+    if(!err && tokenData){
+        if(parseJSON(tokenData).phone === phone && parseJSON(tokenData).expires>Date.now()){
+        callback(true);
+        } else{callback(false);
+        }
+    }else{
+        callback(false);
+    }
+    });
 };
 module.exports = handler;
