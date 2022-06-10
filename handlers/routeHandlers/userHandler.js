@@ -65,6 +65,7 @@ handler._users.post = (requestProperties, callback) => {
         });
     }
 };
+
 handler._users.get = (requestProperties, callback) => {
     // check the phone number if valid
     const phone = typeof requestProperties.queryStringObject.phone === 'string' && requestProperties.queryStringObject.phone.trim().length === 11 ? requestProperties.queryStringObject.phone : false;
@@ -101,6 +102,7 @@ handler._users.get = (requestProperties, callback) => {
         });
     }
 };
+
 handler._users.put = (requestProperties, callback) => {
     // check the phone number if valid
     const phone = typeof requestProperties.body.phone === 'string' && requestProperties.body.phone.trim().length === 11 ? requestProperties.body.phone : false;
@@ -109,7 +111,11 @@ handler._users.put = (requestProperties, callback) => {
     const password = typeof requestProperties.body.password === 'string' && requestProperties.body.password.trim().length > 0 ? requestProperties.body.password : false;
 if (phone) {
     if (firstName || lastName || password) {
-        // lookup the user
+           //verify token
+           let token = typeof(requestProperties.headersObject.token) === 'string' ? requestProperties.headersObject.token : false;
+           tokenHandler._token.verify(token, phone, (tokenId)=>{
+               if(tokenId){
+                       // lookup the user
         data.read('users', phone, (err1, uData) => {
             const userData = { ...parseJSON(uData) };
             if (!err1 && userData) {
@@ -140,6 +146,14 @@ if (phone) {
                     });
             }
         });
+          
+               } else {
+                   callback(403, {
+                       error: 'Authentication Failure!',
+                       });
+               }
+           });
+       
     } else {
         callback(400, {
             error: 'You have a problem in your request!',
@@ -151,6 +165,7 @@ if (phone) {
     });
 }
 };
+
 handler._users.delete = (requestProperties, callback) => {
 // check the phone number if valid
 const phone = typeof requestProperties.queryStringObject.phone === 'string' && requestProperties.queryStringObject.phone.trim().length === 11 ? requestProperties.queryStringObject.phone : false;
@@ -181,4 +196,5 @@ const phone = typeof requestProperties.queryStringObject.phone === 'string' && r
     });
     }
 };
+
 module.exports = handler;
