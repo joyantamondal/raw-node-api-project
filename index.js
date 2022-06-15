@@ -8,16 +8,24 @@
 
 const http = require('http');
 const { handleReqRes } = require('./helpers/handleReqRes');
-const environment = require('./helpers/environments');
+const {sendTwilioSms} = require('./helpers/notifications');
 // app object- module scaffolding
-const app = {};
+const app ={};
+//todo delete later
+sendTwilioSms('01714900040','Sabuj',(err)=>{
+    console.log(`This is the error`, err);
+    });
+ app.config = {
+port: 3000,
+};
 // testing file system
 // you can data.create / data.delete call here to see instant result
 // create server
+
 app.createServer = () => {
     const server = http.createServer(app.handleReqRes);
-    server.listen(environment.port, () => {
-        console.log(`listening to port ${environment.port}`);
+    server.listen(app.config.port, () => {
+        console.log(`listening to port ${app.config.port}`);
     });
 };
 // handle Request Response
