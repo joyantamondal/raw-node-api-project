@@ -45,7 +45,7 @@ const req = https.request(requestDetails,(res)=>{
 // get the status of the sent request
 const status = res.statusCode;
 //calback successfully if the request went through
-if(status ===200 && status===201){
+if(status ===200 || status===201){
     callback(false);
 }else{
     callback(`Status code returned was ${status}`);
